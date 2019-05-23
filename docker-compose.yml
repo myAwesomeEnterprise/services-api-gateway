@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  php_fpm:
+    build: .docker/php
+    container_name: api.gateway.php_fpm
+    volumes:
+      - .:/usr/share/nginx/www
+    working_dir: /usr/share/nginx/www
+    networks:
+      - gateway.network
+  nginx:
+    image: nginx:1.15-alpine
+    container_name: api.gateway.nginx
+    working_dir: /usr/share/nginx/www
+    networks:
+      - gateway.network
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/usr/share/nginx/www
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  mysql:
+    image: mysql:5.7
+    container_name: api.gateway.mysql
+    networks:
+      - gateway.network
+    ports:
+      - "33060:3306"
+    volumes:
+      - ./.docker/mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=gateway
+      - MYSQL_ROOT_PASSWORD=MyAwesomeP@assword
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=secret
+networks:
+  gateway.network:
+    driver: bridge
