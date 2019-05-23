@@ -20,20 +20,20 @@ services:
     volumes:
       - .:/usr/share/nginx/www
       - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-  mysql:
-    image: mysql:5.7
-    container_name: api.gateway.mysql
-    networks:
-      - gateway.network
-    ports:
-      - "33060:3306"
-    volumes:
-      - ./.docker/mysql/data:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=gateway
-      - MYSQL_ROOT_PASSWORD=MyAwesomeP@assword
-      - MYSQL_USER=docker
-      - MYSQL_PASSWORD=secret
+#  mysql:
+#    image: mysql:5.7
+#    container_name: api.gateway.mysql
+#    networks:
+#      - gateway.network
+#    ports:
+#      - "33060:3306"
+#    volumes:
+#      - ./.docker/mysql/data:/var/lib/mysql
+#    environment:
+#      - MYSQL_DATABASE=gateway
+#      - MYSQL_ROOT_PASSWORD=MyAwesomeP@assword
+#      - MYSQL_USER=docker
+#      - MYSQL_PASSWORD=secret
 networks:
   gateway.network:
     driver: bridge
