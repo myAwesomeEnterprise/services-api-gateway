@@ -9,17 +9,13 @@
 namespace App\Http\Controllers;
 
 
-use GuzzleHttp\Client;
+use App\Services\RequestDelegationService;
 use Illuminate\Http\Request;
 
 class GatewayController extends Controller
 {
-    public function dispatchRequest(Request $request, Client $client, $service)
+    public function dispatchRequest(Request $request, RequestDelegationService $delegationService, $service)
     {
-        $host = config("gateway.services.{$service}.host");
-        $requestUri = $request->getRequestUri();
-
-        $response = $client->request($request->method(),"{$host}{$requestUri}");
-        return response($response->getBody(), $response->getStatusCode(), $response->getHeaders());
+        return $delegationService->delegate($request, $service);
     }
 }
