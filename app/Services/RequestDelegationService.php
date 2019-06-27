@@ -97,9 +97,16 @@ class RequestDelegationService
             return response($response->getBody(), $response->getStatusCode(), $response->getHeaders());
         } catch (\Throwable $e) {
             $serviceName = ucfirst($service);
-            return response()->json([
+
+            $response = [
                 'message' => "Something went wrong when trying connect with {$serviceName} service",
-            ], 500);
+            ];
+
+            if (config('app.debug')) {
+                $response['trace'] = $e->getTraceAsString();
+            }
+
+            return response()->json($response, 500);
         }
     }
 }

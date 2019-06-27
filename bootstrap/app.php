@@ -33,6 +33,7 @@ $app = new Laravel\Lumen\Application(
 | Now we will register configuration data.
 |
  */
+$app->configure('app');
 $app->configure('gateway');
 
 /*
